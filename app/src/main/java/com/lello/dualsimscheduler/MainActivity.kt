@@ -55,9 +55,6 @@ class MainActivity : ComponentActivity() {
                         store = store,
                         settingsNavigator = settingsNavigator,
                         isAccessibilityEnabled = { isAccessibilityServiceEnabled() },
-                        openUserSwitcher = {
-                            sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                        },
                     )
                 }
             }
@@ -78,7 +75,6 @@ private fun DebugPanel(
     store: AutomationStateStore,
     settingsNavigator: SettingsNavigator,
     isAccessibilityEnabled: () -> Boolean,
-    openUserSwitcher: () -> Unit,
 ) {
     var workSimLabel by remember { mutableStateOf(store.getWorkSimLabel()) }
     var state by remember { mutableStateOf(store.getState()) }
@@ -157,7 +153,9 @@ private fun DebugPanel(
 
         Button(onClick = { settingsNavigator.openSimSettings() }) { Text("Test open SIM settings") }
 
-        Button(onClick = openUserSwitcher) { Text("Test open user switcher") }
+        Button(onClick = {
+            sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        }) { Text("Test open user switcher") }
 
         Button(onClick = {
             store.setPendingAction(PendingAction.DISABLE_WORK_SIM)
