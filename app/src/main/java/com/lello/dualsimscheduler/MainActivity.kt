@@ -47,6 +47,7 @@ class MainActivity : ComponentActivity() {
         store = AutomationStateStore(applicationContext)
         settingsNavigator = SettingsNavigator(applicationContext)
         enableEdgeToEdge()
+
         setContent {
             DualSIMSchedulerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -57,7 +58,7 @@ class MainActivity : ComponentActivity() {
                         isAccessibilityEnabled = { isAccessibilityServiceEnabled() },
                         openUserSwitcher = {
                             sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                        },
+                        }
                     )
                 }
             }
@@ -65,9 +66,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun isAccessibilityServiceEnabled(): Boolean {
-        val enabled = Settings.Secure.getString(contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
-            ?: return false
-        val serviceName = ComponentName(this, ProfileSwitchAccessibilityService::class.java).flattenToString()
+        val enabled = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+        ) ?: return false
+
+        val serviceName =
+            ComponentName(this, ProfileSwitchAccessibilityService::class.java).flattenToString()
+
         return enabled.split(':').any { it.equals(serviceName, ignoreCase = true) }
     }
 }
@@ -155,9 +161,13 @@ private fun DebugPanel(
             refresh()
         }) { Text("Test switch to Lavoro") }
 
-        Button(onClick = { settingsNavigator.openSimSettings() }) { Text("Test open SIM settings") }
+        Button(onClick = { settingsNavigator.openSimSettings() }) {
+            Text("Test open SIM settings")
+        }
 
-        Button(onClick = openUserSwitcher) { Text("Test open user switcher") }
+        Button(onClick = openUserSwitcher) {
+            Text("Test open user switcher")
+        }
 
         Button(onClick = {
             store.setPendingAction(PendingAction.DISABLE_WORK_SIM)

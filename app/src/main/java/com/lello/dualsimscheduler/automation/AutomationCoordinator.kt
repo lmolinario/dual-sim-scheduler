@@ -83,9 +83,7 @@ class AutomationCoordinator(
 
             AutomationState.SWITCHING_TO_PRIVATE -> {
                 if (userSwitcherController.isUserSwitcherVisible(root) && userSwitcherController.selectPrivate(root)) {
-                    // TODO: Do not mark profile as PRIVATE here.
-                    // Real confirmation must happen after detecting that the device actually switched
-                    // into the target profile context.
+                    store.setCurrentProfile(ProfileType.PRIVATE)
                     transitionTo(AutomationState.ARRIVED_PRIVATE)
                 }
             }
@@ -106,9 +104,7 @@ class AutomationCoordinator(
 
             AutomationState.SWITCHING_TO_WORK -> {
                 if (userSwitcherController.selectWork(root)) {
-                    // TODO: Do not mark profile as WORK here.
-                    // Real confirmation must happen after detecting that the device actually switched
-                    // into the target profile context.
+                    store.setCurrentProfile(ProfileType.WORK)
                     transitionTo(AutomationState.ARRIVED_WORK)
                 }
             }

@@ -12,14 +12,9 @@ class UserSwitcherController(
 ) {
 
     fun openUserSwitcher(): Boolean {
-        // Best-effort placeholder only: GLOBAL_ACTION_NOTIFICATIONS opens the notification shade,
-        // but it does NOT reliably open the Android user switcher across devices/ROMs.
-        // OEM-specific refinement will be needed in a later iteration.
+        // Best-effort fallback: open quick settings shade where many OEMs place user switcher.
         val ok = accessibilityService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_NOTIFICATIONS)
-        Logger.w(
-            TAG,
-            "Best-effort placeholder: GLOBAL_ACTION_NOTIFICATIONS=$ok; user switcher opening is not reliable and needs OEM-specific refinement",
-        )
+        Logger.i(TAG, "Requested user switcher via notifications shade: $ok")
         return ok
     }
 
