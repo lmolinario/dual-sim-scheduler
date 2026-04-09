@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dual SIM Scheduler</string>
+    <string name="accessibility_service_description">Automates profile and SIM switching for Lavoro/Privato workflows.</string>
 </resources>
